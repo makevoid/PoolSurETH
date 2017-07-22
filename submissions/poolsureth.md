@@ -4,6 +4,8 @@ Poolsureth (pronounced pulsurette)
 
 or InsurETH Pool (still not decided about the name)
 
+repo url: https://github.com/makevoid/hackathon/tree/poolsureth/submissions/poolsureth
+
 ---
 
 #### Team name: Poolsureth
