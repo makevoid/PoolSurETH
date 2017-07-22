@@ -1,5 +1,6 @@
 pragma solidity ^0.4.11;
 
+/* FROM https://raw.githubusercontent.com/etherisc/flightDelay/879f3b5b628d155acc11bd9a22be0feece0909a8/FlightDelay.sol */
 /*
 
 	FlightDelay with Oraclized Underwriting and Payout
@@ -7,30 +8,32 @@ pragma solidity ^0.4.11;
 	Copyright (C) Christoph Mussenbrock, Stephan Karpischek
 
 */
-/*
-
-	<%= license %>
-
-	original code from  https://raw.githubusercontent.com/etherisc/flightDelay/879f3b5b628d155acc11bd9a22be0feece0909a8/FlightDelay.sol
-
-*/
 
 import "./usingOraclize.sol";
 import "./solidity_stringutils.sol";
 
-contract Etherisc_build is usingOraclize {
+contract FlightDelay is usingOraclize {
 
-	using strings for *;
+	using solidity_stringutils for *;
 
-	modifier noEther { if (msg.value > 0) throw; _ }
-	modifier onlyOwner { if (msg.sender != owner) throw; _ }
-	modifier onlyOraclize {	if (msg.sender != oraclize_cbAddress()) throw; _ }
+	modifier noEther {
+		if (msg.value > 0) throw;
+		_;
+	}
+	modifier onlyOwner {
+		if (msg.sender != owner) throw;
+		_;
+	}
+	modifier onlyOraclize {
+		if (msg.sender != oraclize_cbAddress()) throw;
+		_;
+	}
 
 	modifier onlyInState (uint _policyId, policyState _state) {
 
 		policy p = policies[_policyId];
 		if (p.state != _state) throw;
-		_
+		_;
 
 	}
 
@@ -38,14 +41,14 @@ contract Etherisc_build is usingOraclize {
 
 		policy p = policies[_policyId];
 		if (p.customer != msg.sender) throw;
-		_
+		_;
 
 	}
 
 	modifier notInMaintenance {
 		healthCheck();
 		if (maintenance_mode >= maintenance_Emergency) throw;
-		_
+		_;
 	}
 
 	// the following modifier is always checked at last, so previous modifiers
@@ -53,9 +56,36 @@ contract Etherisc_build is usingOraclize {
 	modifier noReentrant {
 		if (reentrantGuard) throw;
 		reentrantGuard = true;
-		_
+		_;
 		reentrantGuard = false;
 	}
+
+	// policy Status Codes and meaning:
+	// 
+	// 00 = Applied:	the customer has payed a premium, but the oracle has 
+	//					not yet checked and confirmed. 
+	//					The customer can still revoke the policy.
+	// 01 = Accepted:	the oracle has checked and confirmed. 
+	//					The customer can still revoke the policy.
+	// 02 = Revoked:	The customer has revoked the policy. 
+	//					The premium minus cancellation fee is payed back to the 
+	//					customer by the oracle.
+	// 03 = PaidOut:	The flight has ended with delay. 
+	//					The oracle has checked and payed out.
+	// 04 = Expired:	The flight has endet with <15min. delay. 
+	//					No payout.
+	// 05 = Declined:	The application was invalid. 
+	//					The premium minus cancellation fee is payed back to the 
+	//					customer by the oracle.
+	// 06 = SendFailed:	During Revoke, Decline or Payout, sending ether failed 
+	//					for unknown reasons.
+	//					The funds remain in the contracts RiskFund.
+	
+	
+	//                  00       01        02       03        
+	enum policyState {Applied, Accepted, Revoked, PaidOut, 
+	//					04      05           06
+					  Expired, Declined, SendFailed}
 
 	// oraclize callback types:
 	enum oraclizeState { ForUnderwriting, ForPayout }
@@ -117,25 +147,25 @@ contract Etherisc_build is usingOraclize {
 
 	// some general constants for the system:
 	// minimum observations for valid prediction
-	uint constant minObservations 			= <%= minimum_observations %>;
+	uint constant minObservations 			= 10;
 	// minimum premium to cover costs
 	uint constant minPremium 				= 500 finney;
 	// maximum premium
 	uint constant maxPremium 				= 5 ether;
 	// maximum payout
-	uint constant maxPayout 				= <%= maximum_payout %> ether;
+	uint constant maxPayout 				= 200 ether;
 	// maximum number of identical risks
 	uint8 constant maxIdenticalRisks		= 10;
 	// 1 percent for DAO, 1 percent for maintainer
-	uint8 constant rewardPercent 			= <%= reward_percent %>;
+	uint8 constant rewardPercent 			= 2;
 	// reserve for tail risks
-	uint8 constant reservePercent 			= <%= reserve_percent %>;
+	uint8 constant reservePercent 			= 1;
 	// the weight pattern; in future versions this may become part of the policy struct.
 	// currently can't be constant because of compiler restrictions
 	// weightPattern[0] is not used, just to be consistent
     uint8[6] weightPattern 					= [0, 10,20,30,50,50];
 	// Deadline for acceptance of policies: Mon, 26 Sep 2016 12:00:00 GMT
-	uint contractDeadline 					= <%= contract_deadline %>;
+	uint contractDeadline 					= 1474891200;
 
 	// account numbers for the internal ledger:
 	// sum of all Premiums of all currently active policies
@@ -159,18 +189,18 @@ contract Etherisc_build is usingOraclize {
 
 
 	// gas Constants for oraclize
-	uint constant oraclizeGas 				= <%= oraclize_gas %>;
+	uint constant oraclizeGas 				= 500000;
 
 	// URLs and query strings for oraclize
 
 	string constant oraclize_RatingsBaseUrl =
-		"[URL] json(https://api.flightstats.com/flex/ratings/rest/v1/json/flight/";
+		"[URL] json(https://flight....com";
 	string constant oraclizeRatingsQuery =
 		"?${[decrypt] BDhAVBaQP2CS2VqQ/coqIStcYpSdSdLc1RJoC0gSoh++xsk6cBtLmJBHmB82X6mTMyzJXJPIvfa7ISzfwwhY+k8C3N+oP7htYGZ3N4INH03Uorw7Sif70hOw+xMR6PTX9ri2vkqiNwu9ensNkvTLyGd2l6NHJuij+RmgVw/mXGGZb9wHYC2T}).ratings[0]['observations','late15','late30','late45','cancelled','diverted']";
 
 	// [URL] json(https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/LH/410/dep/2016/09/01?appId={appId}&appKey={appKey})
 	string constant oraclize_StatusBaseUrl =
-	  "[URL] json(<%= api_endpoint %>";
+	  "[URL] json(https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/";
 	string constant oraclizeStatusQuery =
 		"?${[decrypt] BDhAVBaQP2CS2VqQ/coqIStcYpSdSdLc1RJoC0gSoh++xsk6cBtLmJBHmB82X6mTMyzJXJPIvfa7ISzfwwhY+k8C3N+oP7htYGZ3N4INH03Uorw7Sif70hOw+xMR6PTX9ri2vkqiNwu9ensNkvTLyGd2l6NHJuij+RmgVw/mXGGZb9wHYC2T}).flightStatuses[0]['status','delays','operationalTimes']";
 
@@ -214,7 +244,7 @@ contract Etherisc_build is usingOraclize {
 	// several policies can share the same risk structure (typically some people flying
 	// with the same plane)
 
-	struct Risk {
+	struct risk {
 
 		// 0 - Airline Code + FlightNumber
 		string carrierFlightNumber;
@@ -386,7 +416,7 @@ contract Etherisc_build is usingOraclize {
 		// accept only a number of maxIdenticalRisks identical risks:
 
 		bytes32 riskId = sha3(_carrierFlightNumber, _departureYearMonthDay, _arrivalTime);
-		Risk r = risks[riskId];
+		risk r = risks[riskId];
 
 		if (r.counter >= maxIdenticalRisks) {
 			LOG_PolicyDeclined(0, 'To many identical risks');
@@ -437,7 +467,7 @@ contract Etherisc_build is usingOraclize {
 		// to avoid div0 in the payout section, we have to make a minimal assumption on p.weight.
 		if (p.weight == 0) { p.weight = 100000 / _statistics[0]; }
 		p.proof = _proof;
-		Risk r = risks[p.riskId];
+		risk r = risks[p.riskId];
 
 		// schedule payout Oracle
 		schedulePayoutOraclizeCall(
@@ -514,7 +544,7 @@ contract Etherisc_build is usingOraclize {
 		internal {
 
 		policy p = policies[_policyId];
-		Risk r = risks[p.riskId];
+		risk r = risks[p.riskId];
 		r.delay = _delay;
 		r.delayInMinutes = _delayInMinutes;
 
@@ -614,7 +644,7 @@ contract Etherisc_build is usingOraclize {
 		internal {
 
 		var sl_result = _result.toSlice();
-		Risk memory r = risks[policies[_policyId].riskId];
+		risk memory r = risks[policies[_policyId].riskId];
 
 		// we expect result to contain 6 values, something like
 		// "[61, 10, 4, 3, 0, 0]" ->
@@ -659,6 +689,7 @@ contract Etherisc_build is usingOraclize {
 		oraclizeCallback memory o = oraclizeCallbacks[_queryId];
 		uint policyId = o.policyId;
 		var sl_result = _result.toSlice();
+		risk memory r = risks[policies[policyId].riskId];
 
 		if (bytes(_result).length == 0) {
 			// hmm ... bad! try again some minutes later ...
@@ -691,7 +722,6 @@ contract Etherisc_build is usingOraclize {
 
 			if (status == 'A' || (status == 'L' && !arrived)) {
 				// flight still active or not at gate --> reschedule
-				Risk memory r = risks[policies[policyId].riskId];
 				if (o.oraclizeTime > r.arrivalTime + 120 minutes) {
 					LOG_PolicyManualPayout(policyId, 'No arrival at +120 min');
 				} else {
