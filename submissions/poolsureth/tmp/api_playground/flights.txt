@@ -1,0 +1,22 @@
+ curl -v https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/BA1382?appId=0868d720&appKey=$FLIGHTSTATUS_KEY
+
+https://github.com/diditclear/flightstats-client-ruby
+
+https://developer.flightstats.com/api-docs#quickref
+
+-----
+
+doc
+http://flightxml.flightaware.com/soap/FlightXML2/doc#op_FlightInfo
+
+
+curl -v  --user makevoid:$FLIGHTAWARE_KEY http://flightxml.flightaware.com/json/FlightXML2/FlightInfo?ident=BA1382
+
+curl -v  --user makevoid:$FLIGHTAWARE_KEY http://flightxml.flightaware.com/json/FlightXML2/MetarEx?airport=KJFK&startTime=0&howMany=1&offset=0
+
+https://flightaware.com/commercial/flightxml/documentation2.rvt
+
+---
+
+https://github.com/oraclize/dapp-proof-of-identity/blob/master/web3evm.js
+http://www.masonforest.com/blockchain/2017/04/01/how-to-build-twillio-oracle-on-the-ethereum-blockchain.html
