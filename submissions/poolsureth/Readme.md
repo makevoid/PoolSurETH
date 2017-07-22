@@ -7,7 +7,25 @@ pronounced a-la-francois: `pulsurette`
 
 run test rpc:
 
-    testrpc --account="0x0ba29b28d1753ea0e6740d9451a94df75dbd84af6bdbebc0f0236cccae4f5c01,0x1337000000000000000000000" --gasLimit 0x2FAF080
+    testrpc --mnemonic "antani" --accounts 10
+
+clone and setup `oraclize/ethereum-bridge`:
+
+    # cd somewhere
+    git clone https://github.com/oraclize/ethereum-bridge && cd ethereum-bridge && npm i
+
+run the bridge:
+
+    node bridge -a 0
+
+get your OAR from the bridge's output and add it to the test:
+
+    OAR = OraclizeAddrResolverI(0x...);
+
+probably in the latest versions it's always:
+
+    OAR = OraclizeAddrResolverI(0x6f485C8BF6fc43eA212E93BBF8ce046C7f1cb475);
+
 
 install truffle and npm modules:
 
@@ -16,3 +34,8 @@ install truffle and npm modules:
 run tests:
 
     truffle test
+
+
+### useful setup docs/guides
+
+- oraclize + truffle setup: https://ethereum.stackexchange.com/questions/11383/oracle-oraclize-it-with-truffle-and-testrpc
