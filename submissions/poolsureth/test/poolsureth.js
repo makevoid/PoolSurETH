@@ -7,23 +7,9 @@ const numsShouldEq    = require('../test_lib/proto-test-matchers').numsShouldEq
 const c = console
 const coinbase       = require("../test_lib/env-testrpc").coinbase
 const coinbasePvtKey = require("../test_lib/env-testrpc").coinbasePvtKey
+const assertEvent = require("../test_lib/assert-utils").assertEvent
 const Poolsureth = artifacts.require("./Poolsureth.sol")
 
-const assertEvent =  (contract, eventName, filter) => {
-  return new Promise((resolve, reject) => {
-    var event = contract[eventName]()
-    event.watch()
-    event.get((error, logs) => {
-      var log = logs.filter(filter)
-      if (log) {
-        resolve(log)
-      } else {
-        throw Error(`Failed to find filtered event for ${filter.event}`)
-      }
-    })
-    event.stopWatching()
-  })
-}
 
 const finneys = web3.toWei(0.001, "ether") // 1 milliether
 const oneFinney = finneys;
