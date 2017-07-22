@@ -374,8 +374,11 @@ contract Etherisc is usingOraclize {
 
 		// initially put all funds in risk fund.
 		bookkeeping(acc_Balance, acc_RiskFund, msg.value);
-		oraclize_setProof(proofType_TLSNotary | proofStorage_IPFS);
 
+    /* TODO: re-enable proof in prod */
+		/*oraclize_setProof(proofType_TLSNotary | proofStorage_IPFS);*/
+
+    oraclize_setProof(proofType_NONE);
 	}
 
 	// create new policy

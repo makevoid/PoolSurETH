@@ -7,5 +7,5 @@ module.exports = async (deployer) => {
   deployer.link(usingOraclize,        Etherisc)
   deployer.deploy(solidityStringutils)
   deployer.link(solidityStringutils,  Etherisc)
-  deployer.deploy(Etherisc)
+  deployer.deploy(Etherisc, { gas: 1e7 }) // bump the gas - etherisc is a quite expensive contract to deploy
 }

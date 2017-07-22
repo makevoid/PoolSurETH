@@ -12,8 +12,11 @@ const Etherisc = artifacts.require("./Etherisc.sol")
 
 contract('Etherisc', (accounts) => {
 
-  it("matches the superadmin owner", async () => {
-    const pse = await Etherisc.deployed()
+  it("deploys the contract", async () => {
+    const erisc = await Etherisc.deployed()
 
+    const owner = await erisc.owner()
+    owner.shouldMatchCoinbase()
   })
+
 })
