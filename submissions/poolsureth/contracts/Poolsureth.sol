@@ -18,7 +18,7 @@ contract Poolsureth is usingOraclize {
     event newFlightTimeCheck(string flight_number);
 
     Policy[]    public policies;
-    PoolSlice[] public pool_slice;
+    PoolSlice[] public pool_slices;
 
     struct Policy {
       uint    id;
@@ -34,14 +34,24 @@ contract Poolsureth is usingOraclize {
 
     /* client methods */
 
+
+    function getPolicy(uint id) constant returns(uint _id, address _owner, uint _amount) {
+      Policy memory policy = policies[id-1];
+      if ( policy.id != 0 ) {
+        return (policy.id, policy.owner, policy.amount);
+      }
+    }
+
     function deposit() {
-      uint memory twoDays = 2*24*3600;
-      if (now > arrivaltime-twoDays) throw;
-
       // create policy
-      Policy memory policy = policies[policiesCount+1];
+      Policy memory policy = Policy({
+        id:         policies.length+1,
+        owner:      msg.sender,
+        amount:     msg.value,
+      });
+      policies.push(policy);
 
-      if (users_balance[msg.sender] > 0) throw;
+      /*if (users_balance[msg.sender] > 0) throw;*/
     }
 
     /* investor methods */
@@ -58,6 +68,10 @@ contract Poolsureth is usingOraclize {
 
     function policiesCount() constant returns(uint _count) {
       return policies.length;
+    }
+
+    function poolSlicesCount() constant returns(uint _count) {
+      return pool_slices.length;
     }
 
     /* WIP */

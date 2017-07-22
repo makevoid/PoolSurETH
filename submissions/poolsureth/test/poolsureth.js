@@ -34,6 +34,17 @@ contract('PoolSurETH', (accounts) => {
     address.shouldMatchCoinbase()
   })
 
+  it("creates a policy", async () => {
+    const pse = await Poolsureth.deployed()
+
+    await pse.deposit()
+
+    const count = pse.policiesCount()
+    c.log("COUNT:", count)
+  })
+
+  return;
+
   it("checks oraclize", async () => {
     const pse = await Poolsureth.deployed()
     const value = await pse.ETHXBT()
