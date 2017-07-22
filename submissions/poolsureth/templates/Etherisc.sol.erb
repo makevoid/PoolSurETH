@@ -1,4 +1,5 @@
-/* FROM https://raw.githubusercontent.com/etherisc/flightDelay/879f3b5b628d155acc11bd9a22be0feece0909a8/FlightDelay.sol */
+pragma solidity ^0.4.11;
+
 /*
 
 	FlightDelay with Oraclized Underwriting and Payout
@@ -6,11 +7,18 @@
 	Copyright (C) Christoph Mussenbrock, Stephan Karpischek
 
 */
+/*
+
+	<%= license %>
+
+	original code from  https://raw.githubusercontent.com/etherisc/flightDelay/879f3b5b628d155acc11bd9a22be0feece0909a8/FlightDelay.sol
+
+*/
 
 import "./usingOraclize.sol";
 import "./solidity_stringutils.sol";
 
-contract FlightDelay is usingOraclize {
+contract Etherisc_build is usingOraclize {
 
 	using strings for *;
 
@@ -109,25 +117,25 @@ contract FlightDelay is usingOraclize {
 
 	// some general constants for the system:
 	// minimum observations for valid prediction
-	uint constant minObservations 			= 10;
+	uint constant minObservations 			= <%= minimum_observations %>;
 	// minimum premium to cover costs
 	uint constant minPremium 				= 500 finney;
 	// maximum premium
 	uint constant maxPremium 				= 5 ether;
 	// maximum payout
-	uint constant maxPayout 				= 200 ether;
+	uint constant maxPayout 				= <%= maximum_payout %> ether;
 	// maximum number of identical risks
 	uint8 constant maxIdenticalRisks		= 10;
 	// 1 percent for DAO, 1 percent for maintainer
-	uint8 constant rewardPercent 			= 2;
+	uint8 constant rewardPercent 			= <%= reward_percent %>;
 	// reserve for tail risks
-	uint8 constant reservePercent 			= 1;
+	uint8 constant reservePercent 			= <%= reserve_percent %>;
 	// the weight pattern; in future versions this may become part of the policy struct.
 	// currently can't be constant because of compiler restrictions
 	// weightPattern[0] is not used, just to be consistent
     uint8[6] weightPattern 					= [0, 10,20,30,50,50];
 	// Deadline for acceptance of policies: Mon, 26 Sep 2016 12:00:00 GMT
-	uint contractDeadline 					= 1474891200;
+	uint contractDeadline 					= <%= contract_deadline %>;
 
 	// account numbers for the internal ledger:
 	// sum of all Premiums of all currently active policies
@@ -151,7 +159,7 @@ contract FlightDelay is usingOraclize {
 
 
 	// gas Constants for oraclize
-	uint constant oraclizeGas 				= 500000;
+	uint constant oraclizeGas 				= <%= oraclize_gas %>;
 
 	// URLs and query strings for oraclize
 
@@ -206,7 +214,7 @@ contract FlightDelay is usingOraclize {
 	// several policies can share the same risk structure (typically some people flying
 	// with the same plane)
 
-	struct risk {
+	struct Risk {
 
 		// 0 - Airline Code + FlightNumber
 		string carrierFlightNumber;
@@ -378,7 +386,7 @@ contract FlightDelay is usingOraclize {
 		// accept only a number of maxIdenticalRisks identical risks:
 
 		bytes32 riskId = sha3(_carrierFlightNumber, _departureYearMonthDay, _arrivalTime);
-		risk r = risks[riskId];
+		Risk r = risks[riskId];
 
 		if (r.counter >= maxIdenticalRisks) {
 			LOG_PolicyDeclined(0, 'To many identical risks');
@@ -429,7 +437,7 @@ contract FlightDelay is usingOraclize {
 		// to avoid div0 in the payout section, we have to make a minimal assumption on p.weight.
 		if (p.weight == 0) { p.weight = 100000 / _statistics[0]; }
 		p.proof = _proof;
-		risk r = risks[p.riskId];
+		Risk r = risks[p.riskId];
 
 		// schedule payout Oracle
 		schedulePayoutOraclizeCall(
@@ -506,7 +514,7 @@ contract FlightDelay is usingOraclize {
 		internal {
 
 		policy p = policies[_policyId];
-		risk r = risks[p.riskId];
+		Risk r = risks[p.riskId];
 		r.delay = _delay;
 		r.delayInMinutes = _delayInMinutes;
 
@@ -606,7 +614,7 @@ contract FlightDelay is usingOraclize {
 		internal {
 
 		var sl_result = _result.toSlice();
-		risk memory r = risks[policies[_policyId].riskId];
+		Risk memory r = risks[policies[_policyId].riskId];
 
 		// we expect result to contain 6 values, something like
 		// "[61, 10, 4, 3, 0, 0]" ->
@@ -683,7 +691,7 @@ contract FlightDelay is usingOraclize {
 
 			if (status == 'A' || (status == 'L' && !arrived)) {
 				// flight still active or not at gate --> reschedule
-				risk memory r = risks[policies[policyId].riskId];
+				Risk memory r = risks[policies[policyId].riskId];
 				if (o.oraclizeTime > r.arrivalTime + 120 minutes) {
 					LOG_PolicyManualPayout(policyId, 'No arrival at +120 min');
 				} else {
