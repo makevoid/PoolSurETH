@@ -16,7 +16,7 @@ clone and setup `oraclize/ethereum-bridge`:
 
 edit the bridge config file and add you key:
 
-    echo "[dccc4200d5c8738264dc8a9064c03cd5e06af653cac0c5b99e8634bb6175882c]" > config/instance/keys.json
+    echo '["dccc4200d5c8738264dc8a9064c03cd5e06af653cac0c5b99e8634bb6175882c"]' > config/instance/keys.json
 
 run the bridge:
 
