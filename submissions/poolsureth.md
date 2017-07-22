@@ -29,6 +29,9 @@ First some details:
 - Pool of investors putting Ether into a contract
 - Ethereum smart contract checking Oracles for data, notifying contract for payouts. 
 
+We think Ethereum is the only place to do a decentralized automated insurance (with automatic payouts in crypto currency) at the moment, even if there are some challenges (for example proving that you boarded the flight/train/cruise/... - for that the travel company should issue a queryable public API that the oracle can query) --- we think that this is the way to go.
+
+
 #### API/DATA/Gadget you are thinking about using:
 
 - Oraclize
