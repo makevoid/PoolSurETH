@@ -1,6 +1,6 @@
 require_relative 'env'
 
-class App < Roda
+class UI < Roda
   plugin :render, engine: 'haml'
   plugin :public
   plugin :not_found

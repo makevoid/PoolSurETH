@@ -1,3 +1,3 @@
-require_relative 'app'
+require_relative 'ui'
 
-run App
+run UI

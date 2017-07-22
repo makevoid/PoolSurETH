@@ -20,3 +20,7 @@ gem "haml"
 
 # dev server
 gem 'puma'
+
+group :development do
+  gem "rerun"
+end
