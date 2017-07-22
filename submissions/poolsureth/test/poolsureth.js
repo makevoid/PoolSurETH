@@ -9,6 +9,21 @@ const coinbase       = require("../test_lib/env-testrpc").coinbase
 const coinbasePvtKey = require("../test_lib/env-testrpc").coinbasePvtKey
 const Poolsureth = artifacts.require("./Poolsureth.sol")
 
+const assertEvent =  (contract, eventName, filter) => {
+  return new Promise((resolve, reject) => {
+    var event = contract[eventName]()
+    event.watch()
+    event.get((error, logs) => {
+      var log = logs.filter(filter)
+      if (log) {
+        resolve(log)
+      } else {
+        throw Error(`Failed to find filtered event for ${filter.event}`)
+      }
+    })
+    event.stopWatching()
+  })
+}
 
 contract('PoolSurETH', (accounts) => {
 
@@ -17,6 +32,36 @@ contract('PoolSurETH', (accounts) => {
     const address = await pse.superAdmin()
     address.shouldNotBeEmpty()
     address.shouldMatchCoinbase()
+  })
+
+  it("checks oraclize", async () => {
+    const pse = await Poolsureth.deployed()
+    const value = await pse.ETHXBT()
+    console.log("VALUE:", value)
+
+    await pse.update({ value: web3.toWei(0.005, "ether") })
+
+    assertEvent(pse, "newOraclizeQuery", (log) => {
+      c.log("LOG:", log.args)
+    })
+
+
+    setInterval(async () => {
+      assertEvent(pse, "newKrakenPriceTicker", (log) => {
+        c.log("LOG:", log.args)
+      })
+
+      const value = await pse.ETHXBT()
+      console.log("VALUE:", value)
+    }, 5000)
+
+    setTimeout(async () => {
+      const value = await pse.ETHXBT()
+      console.log("VALUE:", value)
+
+    }, 500000)
+
+
   })
 
 })

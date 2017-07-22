@@ -22,11 +22,16 @@ contract Poolsureth is usingOraclize {
     event newKrakenPriceTicker(string price);
 
     function Poolsureth() {
-      OAR = OraclizeAddrResolverI(0x6f485C8BF6fc43eA212E93BBF8ce046C7f1cb475);
+      /* non-dev */
+      /*OAR = OraclizeAddrResolverI(0x6f485C8BF6fc43eA212E93BBF8ce046C7f1cb475);*/
+
+      /* dev */
+      OAR = OraclizeAddrResolverI(0x703A9B79FcFDD5ce7Aaf3fbA67014A17780cf353);
 
       superAdmin = msg.sender;
-        oraclize_setProof(proofType_TLSNotary | proofStorage_IPFS);
-        /*update();*/
+      /* TODO: use a proof in prod - proofType_TLSNotary | proofStorage_IPFS */
+      oraclize_setProof(proofType_NONE);
+      /*update();*/
     }
 
     function __callback(bytes32 myid, string result, bytes proof) {
