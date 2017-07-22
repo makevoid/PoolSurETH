@@ -46,7 +46,9 @@ contract Poolsureth is usingOraclize {
       }
     }
 
-    function register(string _flightCode) {
+    function register(string _flightCode) payable {
+      if (msg.value < 10000) return;  // you can't register without paying ethers
+
       // create policy
       Policy memory policy = Policy({
         id:          policies.length+1,

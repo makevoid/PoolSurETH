@@ -25,6 +25,9 @@ const assertEvent =  (contract, eventName, filter) => {
   })
 }
 
+const finneys = web3.toWei(0.001, "ether") // 1 milliether
+const oneFinney = finneys;
+
 contract('PoolSurETH', (accounts) => {
 
   it("matches the superadmin owner", async () => {
@@ -37,7 +40,7 @@ contract('PoolSurETH', (accounts) => {
   it("creates a policy", async () => {
     const pse = await Poolsureth.deployed()
     const flightNumber = "BA1382"
-    await pse.register(flightNumber)
+    await pse.register(flightNumber, { value: oneFinney })
 
     const count = await pse.policiesCount()
     count.should.be.numEqual(1)
@@ -46,9 +49,22 @@ contract('PoolSurETH', (accounts) => {
     [id, owner, amount, flightCode, arrivalTime, delayed, paid] = await pse.getPolicy(1)
 
     id.should.be.numEqual(1)
+    flightCode.should.be.equal(flightNumber)
+    arrivalTime.should.be.numEqual(0)
+    amount.should.be.numEqual(1e15)
     delayed.should.be.false
+    paid.should.be.false
   })
 
+
+  it("fails to create a policy [no ETH deposited]", async () => {
+    const pse = await Poolsureth.deployed()
+    const flightNumber = "BA1382"
+    await pse.register(flightNumber, { value: 1 })
+
+    const count = await pse.policiesCount()
+    count.should.be.numEqual(1)
+  })
 
   return;
 
