@@ -1,0 +1,34 @@
+!!!5
+%html
+  %head
+    %meta{ charset: "utf-8" }
+    %title App
+    = assets :css
+
+  %body{ class: body_class }
+    -# .container.is-fluid
+    .container
+
+      %nav.nav.has-shadow
+        .container
+          .nav-left
+            %a.nav-item.is-brand{ href: "/" }
+              %h1.title.hs20 PoolSurETH
+          .nav-center
+            %a.nav-item.is-tab.is-active{ href: "/" } Home
+            %a.nav-item.is-tab{ href: "#" } Page1
+
+      %section.hero.is-primary.is-medium
+        .hero-body
+          .container.hs20
+            %h1.title
+              %a{ href: "/" } PoolSurETH
+            %h2.subtitle
+              Poolsureth Ethereum Insurance Contract Generator
+
+
+      %section.content
+        .box
+          = yield
+
+    = assets :js

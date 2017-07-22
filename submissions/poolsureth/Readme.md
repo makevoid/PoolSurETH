@@ -50,3 +50,5 @@ run tests:
 ### useful setup docs/guides
 
 - oraclize + truffle setup: https://ethereum.stackexchange.com/questions/11383/oracle-oraclize-it-with-truffle-and-testrpc
+
+- ruby webapp boilerplate: https://github.com/makevoid/roda_haml_boilerplate_bulma
