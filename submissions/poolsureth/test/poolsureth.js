@@ -36,12 +36,19 @@ contract('PoolSurETH', (accounts) => {
 
   it("creates a policy", async () => {
     const pse = await Poolsureth.deployed()
+    const flightNumber = "BA1382"
+    await pse.register(flightNumber)
 
-    await pse.deposit()
+    const count = await pse.policiesCount()
+    count.should.be.numEqual(1)
 
-    const count = pse.policiesCount()
-    c.log("COUNT:", count)
+    let id, owner, amount, flightCode, arrivalTime, delayed, paid
+    [id, owner, amount, flightCode, arrivalTime, delayed, paid] = await pse.getPolicy(1)
+
+    id.should.be.numEqual(1)
+    delayed.should.be.false
   })
+
 
   return;
 

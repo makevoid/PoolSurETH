@@ -24,6 +24,10 @@ contract Poolsureth is usingOraclize {
       uint    id;
       address owner;
       uint    amount;
+      string  flightCode;
+      uint    arrivalTime;
+      bool    delayed;
+      bool    paid;
     }
 
     struct PoolSlice {
@@ -35,19 +39,23 @@ contract Poolsureth is usingOraclize {
     /* client methods */
 
 
-    function getPolicy(uint id) constant returns(uint _id, address _owner, uint _amount) {
+    function getPolicy(uint id) constant returns(uint _id, address _owner, uint _amount, string flightCode, uint arrivalTime, bool delayed, bool paid) {
       Policy memory policy = policies[id-1];
       if ( policy.id != 0 ) {
-        return (policy.id, policy.owner, policy.amount);
+        return (policy.id, policy.owner, policy.amount, policy.flightCode, policy.arrivalTime, policy.delayed, policy.paid);
       }
     }
 
-    function deposit() {
+    function register(string _flightCode) {
       // create policy
       Policy memory policy = Policy({
-        id:         policies.length+1,
-        owner:      msg.sender,
-        amount:     msg.value,
+        id:          policies.length+1,
+        owner:       msg.sender,
+        amount:      msg.value,
+        flightCode:  _flightCode,
+        arrivalTime: 0,
+        delayed:     false,
+        paid:        false
       });
       policies.push(policy);
 
