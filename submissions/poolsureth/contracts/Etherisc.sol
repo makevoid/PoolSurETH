@@ -1,3 +1,5 @@
+pragma solidity ^0.4.11;
+
 /* FROM https://raw.githubusercontent.com/etherisc/flightDelay/879f3b5b628d155acc11bd9a22be0feece0909a8/FlightDelay.sol */
 /*
 
@@ -10,19 +12,28 @@
 import "./usingOraclize.sol";
 import "./solidity_stringutils.sol";
 
-contract FlightDelay is usingOraclize {
+contract Etherisc is usingOraclize {
 
-	using strings for *;
+	using solidity_stringutils for *;
 
-	modifier noEther { if (msg.value > 0) throw; _ }
-	modifier onlyOwner { if (msg.sender != owner) throw; _ }
-	modifier onlyOraclize {	if (msg.sender != oraclize_cbAddress()) throw; _ }
+	modifier noEther {
+		if (msg.value > 0) throw;
+		_;
+	}
+	modifier onlyOwner {
+		if (msg.sender != owner) throw;
+		_;
+	}
+	modifier onlyOraclize {
+		if (msg.sender != oraclize_cbAddress()) throw;
+		_;
+	}
 
 	modifier onlyInState (uint _policyId, policyState _state) {
 
 		policy p = policies[_policyId];
 		if (p.state != _state) throw;
-		_
+		_;
 
 	}
 
@@ -30,14 +41,14 @@ contract FlightDelay is usingOraclize {
 
 		policy p = policies[_policyId];
 		if (p.customer != msg.sender) throw;
-		_
+		_;
 
 	}
 
 	modifier notInMaintenance {
 		healthCheck();
 		if (maintenance_mode >= maintenance_Emergency) throw;
-		_
+		_;
 	}
 
 	// the following modifier is always checked at last, so previous modifiers
@@ -45,9 +56,36 @@ contract FlightDelay is usingOraclize {
 	modifier noReentrant {
 		if (reentrantGuard) throw;
 		reentrantGuard = true;
-		_
+		_;
 		reentrantGuard = false;
 	}
+
+	// policy Status Codes and meaning:
+	//
+	// 00 = Applied:	the customer has payed a premium, but the oracle has
+	//					not yet checked and confirmed.
+	//					The customer can still revoke the policy.
+	// 01 = Accepted:	the oracle has checked and confirmed.
+	//					The customer can still revoke the policy.
+	// 02 = Revoked:	The customer has revoked the policy.
+	//					The premium minus cancellation fee is payed back to the
+	//					customer by the oracle.
+	// 03 = PaidOut:	The flight has ended with delay.
+	//					The oracle has checked and payed out.
+	// 04 = Expired:	The flight has endet with <15min. delay.
+	//					No payout.
+	// 05 = Declined:	The application was invalid.
+	//					The premium minus cancellation fee is payed back to the
+	//					customer by the oracle.
+	// 06 = SendFailed:	During Revoke, Decline or Payout, sending ether failed
+	//					for unknown reasons.
+	//					The funds remain in the contracts RiskFund.
+
+
+	//                  00       01        02       03
+	enum policyState {Applied, Accepted, Revoked, PaidOut,
+	//					04      05           06
+					  Expired, Declined, SendFailed}
 
 	// oraclize callback types:
 	enum oraclizeState { ForUnderwriting, ForPayout }
@@ -328,7 +366,7 @@ contract FlightDelay is usingOraclize {
 	}
 
 	// constructor
-	function FlightDelay () {
+	function Etherisc () {
 
 		owner = msg.sender;
 		reentrantGuard = false;
@@ -336,8 +374,11 @@ contract FlightDelay is usingOraclize {
 
 		// initially put all funds in risk fund.
 		bookkeeping(acc_Balance, acc_RiskFund, msg.value);
-		oraclize_setProof(proofType_TLSNotary | proofStorage_IPFS);
 
+    /* TODO: re-enable proof in prod */
+		/*oraclize_setProof(proofType_TLSNotary | proofStorage_IPFS);*/
+
+    oraclize_setProof(proofType_NONE);
 	}
 
 	// create new policy
@@ -651,6 +692,7 @@ contract FlightDelay is usingOraclize {
 		oraclizeCallback memory o = oraclizeCallbacks[_queryId];
 		uint policyId = o.policyId;
 		var sl_result = _result.toSlice();
+		risk memory r = risks[policies[policyId].riskId];
 
 		if (bytes(_result).length == 0) {
 			// hmm ... bad! try again some minutes later ...
@@ -683,7 +725,6 @@ contract FlightDelay is usingOraclize {
 
 			if (status == 'A' || (status == 'L' && !arrived)) {
 				// flight still active or not at gate --> reschedule
-				risk memory r = risks[policies[policyId].riskId];
 				if (o.oraclizeTime > r.arrivalTime + 120 minutes) {
 					LOG_PolicyManualPayout(policyId, 'No arrival at +120 min');
 				} else {

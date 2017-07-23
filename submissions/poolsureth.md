@@ -10,7 +10,7 @@ repo url: https://github.com/makevoid/hackathon/tree/poolsureth/submissions/pool
 
 #### Team name: Poolsureth
 
-#### Team: Francesco @makevoid Canessa, Kristina @kristinab Canessa
+#### Team: Francesco @makevoid Canessa, Kristina @kristinab Canessa, Thomas @tbarker Barker
 
 
 #### Team leader: Kristina  @kristinab Canessa
