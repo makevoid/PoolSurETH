@@ -7,7 +7,16 @@ module Renderer
 
   extend Poolsureth
 
+  LOG = true
+  # LOG = false
+
+
   def call(template_name:, locals:)
+    if LOG
+      puts "\n"
+      p locals
+      puts "\n"*2
+    end
 
     configs = {}
 
@@ -38,7 +47,7 @@ module Renderer
     }
 
     # insureth flights flightaware
-    configs[:insureth_flights] = {
+    configs[:insureth_flight] = {
       url_part_0: "https://mkvd.eu.ngrok.io/api/flights/providers/flightaware/flights/",
       url_part_2: ").FlightInfoExResult.flights[-1]",
     }
@@ -62,7 +71,7 @@ module Renderer
       locals.merge! configs[:insureth]
 
       locals.merge! configs[:insureth_flight] if locals.fetch(:type) =~ /flight/
-      locals.merge! configs[:insureth_train] if locals.fetch(:type) =~ /train/
+      locals.merge! configs[:insureth_train]  if locals.fetch(:type) =~ /train/
     end
 
     template = "Etherisc"

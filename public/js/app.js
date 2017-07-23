@@ -34,15 +34,16 @@ const configureContract = () => {
   args.api    = $("select[name=api]").val()
   args.oracle = $("select[name=oracle]").val()
   args.policy = $("select[name=policy]").val()
-  $.get("/render_template", args, (resp) => {
-    c.log(resp)
-  })
+  $.get("/render_template", args, renderTemplate)
 }
 
 var bindBtnConfigure = () => {
   $(".btn-configure").on("click", configureContract)
 }
 
+var renderTemplate = (resp) => {
+  $(".contract_source").val(resp)
+}
 
 var d = document
 var c = console

@@ -22,12 +22,12 @@ class UI < Roda
     r.on("render_template") {
       r.is {
         r.get {
-          name    = r.params[:template_name]
+          name    = r.params["template_name"]
           locals  = {
-            type:   r.params[:type],
-            api:    r.params[:api],
-            oracle: r.params[:oracle],
-            policy: r.params[:policy],
+            type:   r.params["type"],
+            api:    r.params["api"],
+            oracle: r.params["oracle"],
+            policy: r.params["policy"],
           }
 
           Renderer.call template_name: name, locals: locals
