@@ -56,6 +56,15 @@ contract('PoolSurETH', (accounts) => {
     paid.should.be.false
   })
 
+  it("creates a slice", async () => {
+    const pse = await Poolsureth.deployed()
+    await pse.invest({ value: 10*finneys })
+
+
+  })
+
+
+  return;
 
   it("fails to create a policy [no ETH deposited]", async () => {
     const pse = await Poolsureth.deployed()

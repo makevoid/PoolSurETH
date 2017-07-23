@@ -34,17 +34,10 @@ contract Poolsureth is usingOraclize {
       uint    id;
       address owner;
       uint    amount;
+      bool    withdrawn;
     }
 
     /* client methods */
-
-
-    function getPolicy(uint id) constant returns(uint _id, address _owner, uint _amount, string flightCode, uint arrivalTime, bool delayed, bool paid) {
-      Policy memory policy = policies[id-1];
-      if ( policy.id != 0 ) {
-        return (policy.id, policy.owner, policy.amount, policy.flightCode, policy.arrivalTime, policy.delayed, policy.paid);
-      }
-    }
 
     function register(string _flightCode) payable {
       if (msg.value < 10000) return;  // you can't register without paying ethers
@@ -67,14 +60,52 @@ contract Poolsureth is usingOraclize {
     /* investor methods */
 
     function invest() {
+      // create slice
+      PoolSlice memory slice = PoolSlice({
+        id:        policies.length+1,
+        owner:     msg.sender,
+        amount:    msg.value,
+        withdrawn: false
+      });
+      pool_slices.push(slice);
+    }
+
+    function withdraw(uint id) {
+      PoolSlice memory slice = pool_slices[id-1];
+      if ( slice.id != 0 ) {
+        slice.withdrawn = true;
+        pool_slices[id-1] = slice;
+      }
+    }
+
+    /* oracle methods */
+
+    function checkFlightTime() {
 
     }
 
-    function deinvest() {
+    function payClient() {
 
     }
 
-    /* internal */
+
+    /* accessor methods - getters */
+
+    function getPolicy(uint id) constant returns(uint _id, address _owner, uint _amount, string flightCode, uint arrivalTime, bool delayed, bool paid) {
+      Policy memory policy = policies[id-1];
+      if ( policy.id != 0 ) {
+        return (policy.id, policy.owner, policy.amount, policy.flightCode, policy.arrivalTime, policy.delayed, policy.paid);
+      }
+    }
+
+    function getPoolSlice(uint id) constant returns(uint _id, address _owner, uint _amount, bool _withdrawn) {
+      PoolSlice memory slice = pool_slices[id-1];
+      if ( slice.id != 0 ) {
+        return (slice.id, slice.owner, slice.amount, slice.withdrawn);
+      }
+    }
+
+    /* counter methods */
 
     function policiesCount() constant returns(uint _count) {
       return policies.length;
