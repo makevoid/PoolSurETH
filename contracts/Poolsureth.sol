@@ -61,7 +61,6 @@ contract Poolsureth is usingOraclize {
       });
       policies.push(policy);
 
-      /*if (users_balance[msg.sender] > 0) throw;*/
     }
 
     /* investor methods */
@@ -79,13 +78,13 @@ contract Poolsureth is usingOraclize {
 
     function withdraw(uint id) {
       PoolSlice memory slice = pool_slices[id-1];
-      if(msg.sender != slice.owner) throw;
+      require(msg.sender == slice.owner);
       if ( slice.id != 0 && !slice.withdrawn) {
         slice.withdrawn = true;
         pool_slices[id-1] = slice;
       }
 
-      if(!slice.owner.send(slice.amount)) throw;
+      require(slice.owner.send(slice.amount));
     }
 
     /* oracle methods */
@@ -111,19 +110,20 @@ contract Poolsureth is usingOraclize {
     string public debug;
 
     function __callback(bytes32 myid, string result, bytes proof) {
-      if (msg.sender != oraclize_cbAddress()) throw;
+      require(msg.sender == oraclize_cbAddress());
       debug = result;
 
       /* todo: trigger another function */
     }
 
     function payoutPolicy(Policy policy) private {
-      if(policy.paid) throw;
-      if(!policy.delayed || !policy.complete) throw;
+      assert(!policy.paid);
+      assert(policy.delayed);
+      assert(policy.complete);
 
       policy.paid = true;
 
-      if(!policy.owner.send(policy.amount)) throw;
+      require(policy.owner.send(policy.amount));
     }
 
 
