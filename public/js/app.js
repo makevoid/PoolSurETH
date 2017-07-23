@@ -51,7 +51,7 @@ var bindBtnCompile = () => {
 
 var contractCompile = (resp) => {
   contract = $(".tmp_script").html()
-  $.get("/contract_compile", { contract: contract }, renderTemplate)
+  $.get("/contract_compile", { contract: contract }, contractRender)
 }
 
 var contractRender = (resp) => {
