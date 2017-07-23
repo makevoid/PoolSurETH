@@ -14,11 +14,12 @@ module API
       username: "makevoid",
       key: ENV['FLIGHTAWARE_KEY'], # the key can be "blinded" using PATH/lib/tools/vendor/oraclize-encrypt and put directly into the contract, for simplicity (hackathon) and because we're already creating a proxy, we hide the secret into the proxy - we could also keep the proxy and provide a TLS notary proof into it (same at what Oraclize is doing) and with a trusted setup we will have a "provably-honest" proxy.
     },
+    tfl: {
+      name: :tfl,
+      url: "https://api.tfl.gov.uk/Line/%s", # https://api.tfl.gov.uk/Line/N133
+    },
     southern_trains: {
       # TODO time :D
-    },
-    tfl: {
-      # ?
     },
     cruises: {
       # ?
