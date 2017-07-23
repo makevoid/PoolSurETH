@@ -1,22 +1,18 @@
 pragma solidity ^0.4.11;
 
-/* PoolSurETH - pool based "insurance" contract generator */
-/*contract Poolsureth {
-
-  address public superAdmin;
-
-  function Poolsureth() {
-    superAdmin = msg.sender;
-  }
-
-}*/
-
 import "./usingOraclize.sol";
+import "./Solidity_stringutils.sol";
 
 contract Poolsureth is usingOraclize {
 
     event newFlightTimeCheck(string flight_number);
 
+    address public admin;
+
+    function Poolsureth() {
+      // the admin can't do anything at the moment, we just record the address that deployed the contract
+      admin = msg.sender;
+    }
 
     struct Policy {
       uint    id;
@@ -26,6 +22,7 @@ contract Poolsureth is usingOraclize {
       uint    arrivalTime;
       bool    delayed;
       bool    paid;
+      bool    complete;
     }
 
     struct PoolSlice {
@@ -37,6 +34,14 @@ contract Poolsureth is usingOraclize {
 
     Policy[]    public policies;
     PoolSlice[] public pool_slices;
+
+    /* url + json query (oraclize uses a format similar to jq's cli-tool) */
+    string constant query_p0 =
+    "json(https://mkvd.eu.ngrok.io/api/flights/providers/flightaware/flights/";
+    /* part 1 is :id */
+    string constant query_p2 = ").FlightInfoExResult.flights[-1]";
+    /* we get only the last flight [-1] for simplicity but we should map trough them and find the desired one (ideally we should make the user select it via an UI or handle the search via the contract [#overkill ^^]) */
+
 
     /* client methods */
 
@@ -82,13 +87,31 @@ contract Poolsureth is usingOraclize {
 
     /* oracle methods */
 
+    event newOraclizeQuery(string description);
+
     function checkFlightTime() {
       if (oraclize_getPrice("URL") > this.balance) {
         newOraclizeQuery("Oraclize query was NOT sent, please add some ETH to cover for the query fee");
       } else {
+        string memory query_p1 = "BEE1337";
+        string memory query = strConcat(
+          query_p0,
+          query_p1,
+          query_p2
+        );
+
         newOraclizeQuery("Oraclize query was sent, standing by for the answer..");
-        oraclize_query(60, "URL", "json(https://api.kraken.com/0/public/Ticker?pair=ETHXBT).result.XETHXXBT.c.0");
+        oraclize_query(60, "URL", query);
       }
+    }
+
+    string public debug;
+
+    function __callback(bytes32 myid, string result, bytes proof) {
+      if (msg.sender != oraclize_cbAddress()) throw;
+      debug = result;
+
+      /* todo: trigger another function */
     }
 
     function payClient() {
@@ -98,10 +121,10 @@ contract Poolsureth is usingOraclize {
 
     /* accessor methods - getters */
 
-    function getPolicy(uint id) constant returns(uint _id, address _owner, uint _amount, string flightCode, uint arrivalTime, bool delayed, bool paid) {
+    function getPolicy(uint id) constant returns(uint _id, address _owner, uint _amount, string flightCode, uint arrivalTime, bool delayed, bool paid, bool complete) {
       Policy memory policy = policies[id-1];
       if ( policy.id != 0 ) {
-        return (policy.id, policy.owner, policy.amount, policy.flightCode, policy.arrivalTime, policy.delayed, policy.paid);
+        return (policy.id, policy.owner, policy.amount, policy.flightCode, policy.arrivalTime, policy.delayed, policy.paid, policy.complete);
       }
     }
 
@@ -120,44 +143,6 @@ contract Poolsureth is usingOraclize {
 
     function poolSlicesCount() constant returns(uint _count) {
       return pool_slices.length;
-    }
-
-    /* WIP */
-
-    /* ------- */
-
-    /*boilerplate code to check if oraclize works*/
-
-    string public ETHXBT;
-    address public superAdmin;
-
-    event newOraclizeQuery(string description);
-    event newKrakenPriceTicker(string price);
-
-    function Poolsureth() {
-      /* dev */
-      /*OAR = OraclizeAddrResolverI(...);*/
-
-      superAdmin = msg.sender;
-      /* TODO: use a proof in prod - proofType_TLSNotary | proofStorage_IPFS */
-      oraclize_setProof(proofType_NONE);
-      /*update();*/
-    }
-
-    function __callback(bytes32 myid, string result, bytes proof) {
-      if (msg.sender != oraclize_cbAddress()) throw;
-      ETHXBT = result;
-      newKrakenPriceTicker(ETHXBT);
-      update();
-    }
-
-    function update() payable {
-      if (oraclize_getPrice("URL") > this.balance) {
-        newOraclizeQuery("Oraclize query was NOT sent, please add some ETH to cover for the query fee");
-      } else {
-        newOraclizeQuery("Oraclize query was sent, standing by for the answer..");
-        oraclize_query(60, "URL", "json(https://api.kraken.com/0/public/Ticker?pair=ETHXBT).result.XETHXXBT.c.0");
-      }
     }
 
 }

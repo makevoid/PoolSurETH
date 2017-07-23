@@ -30,9 +30,9 @@ const oneFinney = finneys;
 
 contract('PoolSurETH', (accounts) => {
 
-  it("matches the superadmin owner", async () => {
+  it("matches the 'admin' owner", async () => {
     const pse = await Poolsureth.deployed()
-    const address = await pse.superAdmin()
+    const address = await pse.admin()
     address.shouldNotBeEmpty()
     address.shouldMatchCoinbase()
   })
