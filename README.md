@@ -2,7 +2,7 @@
 
 ![](http://mkvphoto.s3.amazonaws.com/tmp/poolsureth2.png)
 
-pronounced a-la-francois: `pulsurette`
+pronounced a-la-française: `pulsurette`
 
 
 PoolSurETH is a Decentralized Insurance Configurator applied to any travel field (flights, trains, cruises etc...), potentially using any investing and reward scheme and connecting via any Ethereum Oracle.

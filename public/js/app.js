@@ -120,6 +120,7 @@ var main = async function() {
   bindDeployContract()
   loadAddress()
   updateBalance()
+  // other actions are on top of the file
 }
 // calls eth.getBalance (gets balance in weis - "micro" ethers)
 var updateBalance = async function() {
@@ -159,16 +160,6 @@ var contractDeploymentCallback = function(err, resp) {
     localStorage.pse_token_address = address
     g.contractAddress = address
   }
-}
-// this is the first time we actually do a sendTransaction call (a standard ethereum transaction)
-// here we call the token contract method `transfer`
-var sendTokens = async function() {
-  var recipientElem = d.querySelector(".recipient_address")
-  var recipient = recipientElem.value
-  var transfer = Promise.promisify(g.insuranceContract.transfer)
-  var tokenTransferAmount = 100 // FIXME™  hardcoded amount, in a real app you probably want to specify the amount transfered
-  var result = await transfer(recipient, tokenTransferAmount)
-  c.log(result)
 }
 
 var bindDeployContract = function() {
