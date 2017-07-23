@@ -1,0 +1,47 @@
+!!!5
+%html
+  %head
+    %meta{ charset: "utf-8" }
+    %title App
+    %link{ href: "/css/vendor/bulma.css", rel: "stylesheet", type: "text/css" }
+    %link{ href: "/css/vendor/font-awesome.css", rel: "stylesheet", type: "text/css" }
+    %link{ href: "/css/style.css", rel: "stylesheet", type: "text/css" }
+
+  %body{ class: body_class }
+    .container.is-fluid
+
+      %nav.nav.has-shadow
+        .container
+          .nav-left
+            %a.nav-item.is-brand{ href: "/" }
+              %h1.title.hs20 PoolSurETH
+          .nav-center
+            %a.nav-item.is-tab.is-active{ href: "/" } Home
+            %a.nav-item.is-tab{ href: "/foo" } Page1 example
+
+      %section.hero.is-primary.is-medium
+        .hero-body
+          .container.hs20.ta-center
+            %h1.title.is-bold
+              %a{ href: "/" } PoolSurETH
+            %h2.subtitle.is-bold
+              Poolsureth Ethereum Insurance Contract Generator
+
+            .s20
+
+            .columns
+              .column.is-2.is-offset-2.is-big
+                %i.fa.fa-plane{"aria-hidden" => "true"}
+              .column.is-2.is-big
+                %i.fa.fa-train{"aria-hidden" => "true"}
+              .column.is-2.is-big
+                %i.fa.fa-ship{"aria-hidden" => "true"}
+              .column.is-2.is-big
+                %i.fa.fa-car{"aria-hidden" => "true"}
+
+      %section.content
+        .box
+          = yield
+
+    %script{ src: "/js/vendor/underscore.js", type: "text/javascript" }
+    %script{ src: "/js/app.js", type: "text/javascript" }

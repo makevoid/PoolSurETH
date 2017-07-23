@@ -1,0 +1,39 @@
+notes: solidity concat
+
+solc Poolsureth.sol | solc --link --libraries usingOraclize:0xe4b113092efc4367731f7c775a5dd3db6adbb3a5,Solidity_stringutils:0xe4b113092efc4367731f7c775a5dd3db6adbb3a5
+
+
+---
+
+curl http://localhost:3009/api/flights/providers/flightaware/flights/BE1337 | jq .FlightInfoExResult.flights[-1]
+
+
+---
+
+
+ curl -v https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/BA1382?appId=0868d720&appKey=$FLIGHTSTATUS_KEY
+
+https://github.com/diditclear/flightstats-client-ruby
+
+https://developer.flightstats.com/api-docs#quickref
+
+-----
+
+doc
+http://flightxml.flightaware.com/soap/FlightXML2/doc#op_FlightInfo
+http://flightxml.flightaware.com/json/FlightXML2/doc#op_FlightInfo
+
+
+curl -v  --user makevoid:$FLIGHTAWARE_KEY http://flightxml.flightaware.com/json/FlightXML2/FlightInfo?ident=BA1382
+
+curl -v  --user makevoid:$FLIGHTAWARE_KEY http://flightxml.flightaware.com/json/FlightXML2/MetarEx?airport=KJFK&startTime=0&howMany=1&offset=0
+
+curl  --user makevoid:$FLIGHTAWARE_KEY http://flightxml.flightaware.com/json/FlightXML2/FlightInfoEx?ident=BA1382 | jq .
+
+
+https://flightaware.com/commercial/flightxml/documentation2.rvt
+
+---
+
+https://github.com/oraclize/dapp-proof-of-identity/blob/master/web3evm.js
+http://www.masonforest.com/blockchain/2017/04/01/how-to-build-twillio-oracle-on-the-ethereum-blockchain.html
