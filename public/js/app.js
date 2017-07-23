@@ -56,8 +56,12 @@ var contractCompile = (resp) => {
 
 var contractRender = (resp) => {
   c.log("RENDER:", resp)
-  $(".contract_abi").val(resp.abi)
-  $(".contract_bytecode").val(resp.bytecode)
+  $(".contract_abi").val(JSON.stringify(resp.abi))
+  $(".contract_bytecode").val(resp.unlinked_binary)
+
+  g.bytecode = resp.unlinked_binary
+  g.abi = resp.abi
+
 }
 
 
