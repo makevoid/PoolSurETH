@@ -85,30 +85,30 @@
       .columns.is-vcentered
         .column.is-8.is-offset-2
           %h3.title.text-white.has-text-centered.is-bold
-            Usecase
+            Test your contract as:
 
       .container
         .columns.is-vcentered
           .column.is-4.is-offset-2
             .box.transparent
               %div.ta-center
-                %a.button.is-primary.is-medium
-                  Insurer
+                %a.button.is-primary.is-medium{ href: "/#client" }
+                  Client
 
           .column.is-4
             .box.transparent
               %div.ta-center
-                %a.button.is-primary.is-medium
+                %a.button.is-primary.is-medium{ href: "/#investor" }
                   Investor
 
 
--# Insurer page
+-# Client page
 
 .s50
 
 %p
 
-%section.hero.is-primary
+%section.hero.is-primary#client
   .hero-body
     .container
       .columns.is-vcentered
@@ -132,16 +132,19 @@
           %h3.title.text-white.has-text-centered.is-bold
             Insure for
           %h4.title.text-white.has-text-centered.is-bold
-            £ 210
+            %span.insure_amount_gbp 50
+            £
           %h4.title.text-white.has-text-centered.is-bold
-            1.2 ETH
+            \~
+            %span.insure_amount_eth 0.3
+            ETH
 
           -# .field
           -#   %label.label Amount
           -#   .control
           -#     %input.input{:placeholder => "ex: 1.2 Eth", :type => "text"}/
           .ta-center
-            %input{:max => "440", :min => "90", :name => "insure_amount", :step => "10", :style => "width: 243px", :type => "range", :value => "200"}/
+            %input{:max => "100", :min => "30", :name => "insure_amount", :step => "5", :style => "width: 243px", :type => "range", :value => "50"}/
 
           .column.is-8.is-offset-2
             %div.ta-center
@@ -155,8 +158,8 @@
         .column.is-8.is-offset-2
           %h3.title.text-white.has-text-centered.is-bold
             Deposit 0.1 ETH to address:
-          %h4.title.text-white.has-text-centered.is-bold
-            (This is a proof of concept, don't deposit any ether please)
+          -# %h4.title.text-white.has-text-centered.is-bold
+          -#   (This is a proof of concept, don't deposit any ether please)
           .ta-center
             %img{:src => "http://insureth.mkvd.net/images/qrcode.gif"}/
           %h4.title.text-white.has-text-centered.is-bold
@@ -165,7 +168,8 @@
           .column.is-8.is-offset-2
             %div.ta-center
               %a.button.is-primary.is-medium
-                TEMP: Deposit Done
+                \...
+                -# TEMP: Deposit Done
 
 %section.hero.is-primary
   .hero-body
@@ -187,10 +191,13 @@
 -# Investor page
 
 .s50
+.s50
 
-%p
+%hr
 
-%section.hero.is-grey
+.s50
+
+%section.hero.is-grey#investor
   .hero-body
     .container
       .columns.is-vcentered
@@ -217,7 +224,9 @@
           .column.is-8.is-offset-2
             %div.ta-center
               %a.button.is-primary.is-medium
-                TEMP: Deposit Done
+                \...
+                -# TEMP: Deposit Done
+
 
 %section.hero.is-primary
   .hero-body
