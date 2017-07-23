@@ -1,1 +1,0 @@
-bundle exec rerun -s KILL -p "**/*.{rb}" -- bundle exec rackup -p ${PORT:-3009}
