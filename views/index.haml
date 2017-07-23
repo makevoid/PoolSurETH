@@ -24,32 +24,34 @@
             %label.label Type of Travel
             .control
               .select
-                %select
-                  %option Flight (InsurETH)
-                  %option Flight (Etherisc)
-                  %option Train
-                  %option Cruise
-                  %option Holiday
+                %select{ name: "type" }
+                  %option{ value: "insureth_flight" } Flight (InsurETH)
+                  %option{ value: "etherisc_flight" } Flight (Etherisc)
+                  %option{ value: "insureth_train" } Train (InsurETH)
+                  %option{ value: "etherisc_train" } Train (Etherisc)
+                  %option{ value: "missing_api_cruise" } Cruise
+                  %option{ value: "missing_api_holiday" } Holiday
         .column.is-3
           .box.transparent
             .field
             %label.label API
             .control
               .select
-                %select
-                  %option flightaware.com
-                  %option flightstats.com
-                  %option Custom
+                %select{ name: "api" }
+                  %option{ value: "flightaware" } flightaware.com
+                  %option{ value: "flightstats" } flightstats.com
+                  %option{ value: "tfl" }         TFL tube
+                  %option{ value: "custom_todo" } Custom
         .column.is-3
           .box.transparent
             .field
             %label.label Oracle
             .control
               .select
-                %select
-                  %option Oraclize
-                  %option Reality Keys
-                  %option Custom
+                %select{ name: "oracle" }
+                  %option{ value: "oraclize" }     Oraclize
+                  %option{ value: "reality_keys" } Reality Keys
+                  %option{ value: "custom_todo" } Custom
 
         .column.is-3
           .box.transparent
@@ -57,9 +59,10 @@
             %label.label Policy
             .control
               .select
-                %select
-                  %option Fixed reward
-                  %option Custom
+                %select{ name: "policy" }
+                  %option{ value: "fixed" } Fixed reward
+                  %option{ value: "flexi" } Flexible reward
+                  %option{ value: "custom_todo" } Custom
 
   .s30
   .columns.is-vcentered
@@ -76,14 +79,15 @@
     .columns
       .column
         %textarea.textarea.is-long.is-tall.contract_source
-
+          Click the 'Configure' button above to load the customised contract source.
 
 .s50
 .columns.is-vcentered
   .column.is-8.is-offset-2
     %div.ta-center
-      %a.button.is-primary.is-medium.is-long
-        Apply
+      %a.button.is-primary.is-medium.is-long.btn_contract_compile
+        Compile
+
 .s50
 
 %p
@@ -105,12 +109,20 @@
         .column.is-6.is-offset-3
           %p Your MetaMask Address
 
-          %input.input.disabled{ disabled: true }
+          .metamask_address.bg-white.padded
           .s20
 
-          %p Your (ETH) balance:
+          %p Your (ETH) balance (in wei):
 
-          %input.input.disabled{ disabled: true }
+          .balance.bg-white.padded
+          .s20
+
+          %p Insurance Contract Address
+
+          .contract_address.bg-white.padded
+            \ 0x...
+          .s20
+
 
       .column.is-8.is-offset-2
         %div.ta-center

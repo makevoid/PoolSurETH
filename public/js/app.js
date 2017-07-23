@@ -29,14 +29,21 @@ var update_insured_totals = function(evt){
 }
 
 const configureContract = () => {
-  $.get("/")
-
+  args = {}
+  args.type   = $("select[name=type]").val()
+  args.api    = $("select[name=api]").val()
+  args.oracle = $("select[name=oracle]").val()
+  args.policy = $("select[name=policy]").val()
+  $.get("/render_template", args, renderTemplate)
 }
 
 var bindBtnConfigure = () => {
   $(".btn-configure").on("click", configureContract)
 }
 
+var renderTemplate = (resp) => {
+  $(".contract_source").val(resp)
+}
 
 var d = document
 var c = console
@@ -75,6 +82,8 @@ var main = async function() {
 }
 // calls eth.getBalance (gets balance in weis - "micro" ethers)
 var updateBalance = async function() {
+  d.querySelector(".metamask_address").innerHTML = g.coinbase
+
   var balance = await g.getBalance(g.coinbase)
   d.querySelector(".balance").innerHTML = balance
 }

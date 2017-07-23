@@ -59,3 +59,11 @@ strong {
 .logo-top {
   width: 50px;
 }
+
+.bg-white {
+  background: white;
+}
+
+.padded {
+  padding: 5px 10px;
+}
