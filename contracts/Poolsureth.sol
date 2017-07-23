@@ -117,8 +117,13 @@ contract Poolsureth is usingOraclize {
       /* todo: trigger another function */
     }
 
-    function payClient() {
+    function payoutPolicy(Policy policy) private {
+      if(policy.paid) throw;
+      if(!policy.delayed || !policy.complete) throw;
 
+      policy.paid = true;
+
+      if(!policy.owner.send(policy.amount)) throw;
     }
 
 

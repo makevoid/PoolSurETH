@@ -38,3 +38,15 @@
 .is-big {
   font-size: 50px;
 }
+
+.is-full {
+  width: 100%;
+}
+
+.is-tall {
+  height: 400px;
+}
+
+strong {
+  font-weight: bold !important;
+}
