@@ -16,9 +16,9 @@ const oneFinney = finneys;
 
 contract('PoolSurETH', (accounts) => {
 
-  it("matches the superadmin owner", async () => {
+  it("matches the 'admin' owner", async () => {
     const pse = await Poolsureth.deployed()
-    const address = await pse.superAdmin()
+    const address = await pse.admin()
     address.shouldNotBeEmpty()
     address.shouldMatchCoinbase()
   })
@@ -35,6 +35,7 @@ contract('PoolSurETH', (accounts) => {
     [id, owner, amount, flightCode, arrivalTime, delayed, paid] = await pse.getPolicy(1)
 
     id.should.be.numEqual(1)
+    owner.shouldMatchCoinbase()
     flightCode.should.be.equal(flightNumber)
     arrivalTime.should.be.numEqual(0)
     amount.should.be.numEqual(1e15)
@@ -42,6 +43,23 @@ contract('PoolSurETH', (accounts) => {
     paid.should.be.false
   })
 
+  it("creates a slice (#invest [as investor])", async () => {
+    const pse = await Poolsureth.deployed()
+    await pse.invest({ value: 10*finneys })
+
+    const count = await pse.poolSlicesCount()
+    count.should.be.numEqual(1)
+
+    let id, owner, amount, withdrawn
+    [id, owner, amount, withdrawn] = await pse.getPoolSlice(1)
+
+    id.should.be.numEqual(1)
+    owner.shouldMatchCoinbase()
+    amount.should.be.numEqual(1e16)
+    withdrawn.should.be.false
+  })
+
+  return;
 
   it("fails to create a policy [no ETH deposited]", async () => {
     const pse = await Poolsureth.deployed()

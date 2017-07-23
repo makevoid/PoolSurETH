@@ -12,7 +12,6 @@ gem "oj"
 gem "hashie"
 gem "inflecto"
 
-
 # UI
 
 gem "roda"
