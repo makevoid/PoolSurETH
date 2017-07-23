@@ -45,6 +45,43 @@ var renderTemplate = (resp) => {
   $(".contract_source").val(resp)
 }
 
+var bindBtnCompile = () => {
+  $(".btn_contract_compile").on("click", contractCompile)
+}
+
+var contractCompile = (resp) => {
+  contract = $(".tmp_script").html()
+  $.get("/contract_compile", { contract: contract }, renderTemplate)
+}
+
+var contractRender = (resp) => {
+  c.log("RENDER:", resp)
+  $(".contract_abi").val(resp.abi)
+  $(".contract_bytecode").val(resp.bytecode)
+}
+
+
+
+$(function(){
+
+  var btc_gbp = get_rates()
+
+  $("input[name=insure_amount]").on("mousemove", update_insured_totals)
+
+  dom.on("rates_updated", update_insured_totals)
+
+  // $(".button.insure"      ).on("click", do_insure)
+  // $(".button.deposit-done").on("click", deposit_triggered)
+
+  bindBtnConfigure();
+  bindBtnCompile();
+})
+
+
+//// ----------
+
+// the following code is based on ftw_2017 code
+
 var d = document
 var c = console
 var g = window // global scope shortcut
@@ -142,20 +179,3 @@ window.addEventListener('load', main)
 g.bytecode = ""
 // contract abi
 g.abi = []
-
-
-
-$(function(){
-
-  var btc_gbp = get_rates()
-
-  $("input[name=insure_amount]").on("mousemove", update_insured_totals)
-
-  dom.on("rates_updated", update_insured_totals)
-
-  // $(".button.insure"      ).on("click", do_insure)
-  // $(".button.deposit-done").on("click", deposit_triggered)
-
-  bindBtnConfigure();
-
-})

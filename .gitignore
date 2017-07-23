@@ -1,5 +1,5 @@
 build/contracts/*.json
-constracts/*_build.sol
+contracts/*_build.sol
 node_modules
 .DS_Store
 compiled/*.sol

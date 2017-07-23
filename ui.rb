@@ -35,6 +35,15 @@ class UI < Roda
       }
     }
 
+    r.on("contract_compile") {
+      r.is {
+        r.get {
+          # name = r.params["contract_name"]
+          name = "Poolsureth"
+          Compiler.call(name: name, code: r.params["contract"])
+        }
+      }
+    }
 
     # this needs to be removed from the final version - at the moment we need an API proxy because Oraclize hasn't published yet the solidity code to support passing HTTP headers to the oracle, which are required for some api providers (flightaware)
     r.on("api") {

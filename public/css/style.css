@@ -67,3 +67,7 @@ strong {
 .padded {
   padding: 5px 10px;
 }
+
+.is-short {
+  height: 50px !important;
+}

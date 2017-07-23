@@ -9,6 +9,7 @@ PATH = File.expand_path "../", __FILE__
 
 require_relative 'lib/poolsureth'
 require_relative 'lib/renderer'
+require_relative 'lib/compiler'
 
 
 unless ENV["SKIP_UI"] == "1"
