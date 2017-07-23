@@ -7,8 +7,8 @@ PATH = File.expand_path "../", __FILE__
 
 # template renderer
 
-require_relative 'lib/renderer'
 require_relative 'lib/poolsureth'
+require_relative 'lib/renderer'
 
 
 unless ENV["SKIP_UI"] == "1"
