@@ -50,3 +50,11 @@
 strong {
   font-weight: bold !important;
 }
+
+.bg-white {
+  background: white;
+}
+
+.padded {
+  padding: 5px 10px;
+}

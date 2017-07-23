@@ -75,6 +75,8 @@ var main = async function() {
 }
 // calls eth.getBalance (gets balance in weis - "micro" ethers)
 var updateBalance = async function() {
+  d.querySelector(".metamask_address").innerHTML = g.coinbase
+
   var balance = await g.getBalance(g.coinbase)
   d.querySelector(".balance").innerHTML = balance
 }

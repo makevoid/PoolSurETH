@@ -76,7 +76,7 @@
     .columns
       .column
         %textarea.textarea.is-long.is-tall.contract_source
-
+          Click the 'Configure' button above to load the customised contract source.
 
 .s50
 .columns.is-vcentered
@@ -105,12 +105,20 @@
         .column.is-6.is-offset-3
           %p Your MetaMask Address
 
-          %input.input.disabled{ disabled: true }
+          .metamask_address.bg-white.padded
           .s20
 
-          %p Your (ETH) balance:
+          %p Your (ETH) balance (in wei):
 
-          %input.input.disabled{ disabled: true }
+          .balance.bg-white.padded
+          .s20
+
+          %p Insurance Contract Address
+
+          .contract_address.bg-white.padded
+            \ 0x...
+          .s20
+
 
       .column.is-8.is-offset-2
         %div.ta-center
