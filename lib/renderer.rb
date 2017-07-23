@@ -7,7 +7,7 @@ class Renderer
 
   extend Poolsureth
 
-  def call(template_name:, json_locals:)
+  def call(template_name:, locals:)
 
     template = "Etherisc"
 

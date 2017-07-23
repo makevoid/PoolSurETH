@@ -29,7 +29,14 @@ var update_insured_totals = function(evt){
 }
 
 const configureContract = () => {
-  $.get("/")
+  args = {}
+  args.type   = $("select[name=type]").val()
+  args.api    = $("select[name=api]").val()
+  args.oracle = $("select[name=oracle]").val()
+  args.policy = $("select[name=policy]").val()
+  $.get("/render_template", args, (resp) => {
+    c.log(resp)
+  })
 
 }
 
