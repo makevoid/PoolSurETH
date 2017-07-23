@@ -17,8 +17,6 @@ contract Poolsureth is usingOraclize {
 
     event newFlightTimeCheck(string flight_number);
 
-    Policy[]    public policies;
-    PoolSlice[] public pool_slices;
 
     struct Policy {
       uint    id;
@@ -36,6 +34,9 @@ contract Poolsureth is usingOraclize {
       uint    amount;
       bool    withdrawn;
     }
+
+    Policy[]    public policies;
+    PoolSlice[] public pool_slices;
 
     /* client methods */
 
@@ -59,10 +60,10 @@ contract Poolsureth is usingOraclize {
 
     /* investor methods */
 
-    function invest() {
+    function invest() payable {
       // create slice
       PoolSlice memory slice = PoolSlice({
-        id:        policies.length+1,
+        id:        pool_slices.length+1,
         owner:     msg.sender,
         amount:    msg.value,
         withdrawn: false
