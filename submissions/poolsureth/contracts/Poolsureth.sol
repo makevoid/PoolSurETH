@@ -51,7 +51,8 @@ contract Poolsureth is usingOraclize {
         flightCode:  _flightCode,
         arrivalTime: 0,
         delayed:     false,
-        paid:        false
+        paid:        false,
+        complete:    false
       });
       policies.push(policy);
 
@@ -82,7 +83,12 @@ contract Poolsureth is usingOraclize {
     /* oracle methods */
 
     function checkFlightTime() {
-
+      if (oraclize_getPrice("URL") > this.balance) {
+        newOraclizeQuery("Oraclize query was NOT sent, please add some ETH to cover for the query fee");
+      } else {
+        newOraclizeQuery("Oraclize query was sent, standing by for the answer..");
+        oraclize_query(60, "URL", "json(https://api.kraken.com/0/public/Ticker?pair=ETHXBT).result.XETHXXBT.c.0");
+      }
     }
 
     function payClient() {

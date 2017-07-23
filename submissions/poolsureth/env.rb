@@ -10,6 +10,11 @@ require_relative 'lib/poolsureth'
 
 unless ENV["SKIP_UI"] == "1"
 
+  # API
+
+  require_relative 'lib/api'
+
+
   # UI
 
   require_relative 'lib/ui/roda_utils'

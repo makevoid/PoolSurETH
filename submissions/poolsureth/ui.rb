@@ -8,6 +8,7 @@ class UI < Roda
   plugin :partials
   plugin :all_verbs
   plugin :error_handler
+  plugin :json
 
   include RodaUtils
   include ViewHelpers
@@ -22,6 +23,26 @@ class UI < Roda
       r.is {
         r.get {
           view 'foo'
+        }
+      }
+    }
+
+    # this needs to be removed from the final version - at the moment we need an API proxy because Oraclize hasn't published yet the solidity code to support passing HTTP headers to the oracle, which are required for some api providers (flightaware)
+    r.on("api") {
+      r.on("flights") {
+        r.on("providers") {
+          r.on(":provider_id") { |provider_id|
+            r.on("flights") {
+              r.on(":id") { |id|
+                r.is {
+                  r.get {
+                    # example:  /api/flights/providers/flightaware/flights/BA1382
+                    API.call(provider: :flightaware, id: id)
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
