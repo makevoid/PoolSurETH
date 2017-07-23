@@ -99,3 +99,62 @@
               %div.ta-center
                 %a.button.is-primary.is-medium
                   Investor
+
+
+-# Insurer page
+
+.s50
+
+%p
+
+%section.hero.is-primary
+  .hero-body
+    .container
+      .columns.is-vcentered
+        .column.is-8.is-offset-2
+          %h3.title.text-white.has-text-centered.is-bold
+            Enter your flight number
+
+          .field
+            %label.label Flight Number
+            .control
+              %input.input{:placeholder => "ex: BA 123", :type => "text"}/
+
+
+%section.hero.is-grey
+  .hero-body
+    .container
+      .columns.is-vcentered
+        .column.is-8.is-offset-2
+          %h3.title.text-white.has-text-centered.is-bold
+            Insure for
+          %h4.title.text-white.has-text-centered.is-bold
+            £ 210
+          %h4.title.text-white.has-text-centered.is-bold
+            1.2 ETH
+
+          -# .field
+          -#   %label.label Amount
+          -#   .control
+          -#     %input.input{:placeholder => "ex: 1.2 Eth", :type => "text"}/
+          .ta-center
+            %input{:max => "440", :min => "90", :name => "insure_amount", :step => "10", :style => "width: 243px", :type => "range", :value => "200"}/
+
+          .column.is-8.is-offset-2
+            %div.ta-center
+              %a.button.is-primary.is-medium
+                Insure
+
+%section
+  .hero-body
+    .container
+      .columns.is-vcentered
+        .column.is-8.is-offset-2
+          %h3.title.text-white.has-text-centered.is-bold
+            Deposit 0.1 ETH to address:
+          %h4.title.text-white.has-text-centered.is-bold
+            (This is a proof of concept, don't deposit any ether please)
+          .ta-center
+            %img{:src => "http://insureth.mkvd.net/images/qrcode.gif"}/
+          %h4.title.text-white.has-text-centered.is-bold
+            0x0462838f4e30223d51310c9725c51217481141c2

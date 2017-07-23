@@ -31,6 +31,10 @@
   width: 500px;
 }
 
+.is-half-long {
+  width: 280px;
+}
+
 .is-big {
   font-size: 50px;
 }
