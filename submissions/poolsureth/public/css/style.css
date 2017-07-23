@@ -18,3 +18,19 @@
 	background-color: rgba(255, 255, 255, 0.3);
 	color: rgb(255, 255, 255);
 }
+
+.is-bold {
+  font-weight: bold;
+}
+
+.is-grey {
+  background-color: lightgrey;
+}
+
+.is-long {
+  width: 500px;
+}
+
+.is-big {
+  font-size: 50px;
+}

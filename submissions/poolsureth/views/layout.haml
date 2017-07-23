@@ -4,6 +4,7 @@
     %meta{ charset: "utf-8" }
     %title App
     %link{ href: "/css/vendor/bulma.css", rel: "stylesheet", type: "text/css" }
+    %link{ href: "/css/vendor/font-awesome.css", rel: "stylesheet", type: "text/css" }
     %link{ href: "/css/style.css", rel: "stylesheet", type: "text/css" }
 
   %body{ class: body_class }
@@ -21,24 +22,22 @@
       %section.hero.is-primary.is-medium
         .hero-body
           .container.hs20.ta-center
-            %h1.title
+            %h1.title.is-bold
               %a{ href: "/" } PoolSurETH
-            %h2.subtitle
+            %h2.subtitle.is-bold
               Poolsureth Ethereum Insurance Contract Generator
 
-        .columns
-          .column
-            Flight
-            %i.fa.fa-plane{"aria-hidden" => "true"}
-          .column
-            Train
-            %i.fa.fa-plane{"aria-hidden" => "true"}
-          .column
-            Cruise
-            %i.fa.fa-ship{"aria-hidden" => "true"}
-          .column
-            Car
-            %i.fa.fa-car{"aria-hidden" => "true"}
+            .s20
+
+            .columns
+              .column.is-2.is-offset-2.is-big
+                %i.fa.fa-plane{"aria-hidden" => "true"}
+              .column.is-2.is-big
+                %i.fa.fa-train{"aria-hidden" => "true"}
+              .column.is-2.is-big
+                %i.fa.fa-ship{"aria-hidden" => "true"}
+              .column.is-2.is-big
+                %i.fa.fa-car{"aria-hidden" => "true"}
 
       %section.content
         .box

@@ -1,9 +1,9 @@
-%section.hero.is-primary
+%section.hero
   .hero-body
   .container
   .columns.is-vcentered
     .column.is-8.is-offset-2
-      %h3.title.text-white.has-text-centered
+      %h3.title.text-white.has-text-centered.is-bold
         Configure your Insurance Contract
 
   .container
@@ -50,28 +50,31 @@
                 %option Premium
                 %option Basic
 
-    .s30
-
+.s50
+.columns.is-vcentered
+  .column.is-8.is-offset-2
     %div.ta-center
-      %a.button.button-is-primary
+      %a.button.is-primary.is-medium.is-long
         Apply
-    .s50
+.s50
 
 %p
 
 
-%section.hero.is-primary
+%section.hero.is-grey
   .hero-body
-  .container
-  .columns.is-vcentered
-    .column.is-4.is-offset-4
-      %h3.title.text-white.has-text-centered
-        Deploy via MetaMask
+    .container
+      .columns.is-vcentered
+        .column.is-4.is-offset-4
+          %h3.title.text-white.has-text-centered
+            Deploy via MetaMask
 
-  %div.ta-center
-    %a.button.button-is-primary
-      Deploy
-    .s50
+
+      .column.is-8.is-offset-2
+        %div.ta-center
+          %a.button.is-primary.is-medium.is-long
+            Deploy
+.s50
 
 %p
 
@@ -80,7 +83,7 @@
     .container
       .columns.is-vcentered
         .column.is-8.is-offset-2
-          %h3.title.text-white.has-text-centered
+          %h3.title.text-white.has-text-centered.is-bold
             Usecase
 
       .container
@@ -88,11 +91,11 @@
           .column.is-4.is-offset-2
             .box.transparent
               %div.ta-center
-                %a.button.button-is-primary
+                %a.button.is-primary.is-medium
                   Insurer
 
           .column.is-4
             .box.transparent
               %div.ta-center
-                %a.button.button-is-primary
+                %a.button.is-primary.is-medium
                   Investor
