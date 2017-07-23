@@ -13,6 +13,8 @@ module API
       url:    "https://flightxml.flightaware.com/json/FlightXML2/FlightInfoEx?ident=%s",
       username: "makevoid",
       key: ENV['FLIGHTAWARE_KEY'], # the key can be "blinded" using PATH/lib/tools/vendor/oraclize-encrypt and put directly into the contract, for simplicity (hackathon) and because we're already creating a proxy, we hide the secret into the proxy - we could also keep the proxy and provide a TLS notary proof into it (same at what Oraclize is doing) and with a trusted setup we will have a "provably-honest" proxy.
+
+      # there is a way but it required a "bit of setup" - making oraclize execute a trusted environment on a docker container - see http://docs.oraclize.it/#data-sources-computation (no time)
     },
     tfl: {
       name: :tfl,

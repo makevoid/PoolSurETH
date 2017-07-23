@@ -3,11 +3,12 @@
 # reads from templates/contract.sol.erb
 # compiles the sol file in contract_built.sol
 
-class Renderer
+module Renderer
 
   extend Poolsureth
 
   def call(template_name:, locals:)
+
 
     template = "Etherisc"
 
@@ -38,6 +39,9 @@ class Renderer
     # /* part 1 is :id */
     # string constant query_p2 = ").FlightInfoExResult.flights[-1]";
 
+    url_part_0 = "https://mkvd.eu.ngrok.io/api/flights/providers/flightaware/flights/"
+    url_part_2 = "https://mkvd.eu.ngrok.io/api/flights/providers/flightaware/flights/"
+
     # custom
     # locals = {
     #   test: true,
@@ -53,4 +57,13 @@ class Renderer
     write solidity, name: template
 
   end
+
+  module_function :call
+
+  private
+
+  module ModuleMethods
+
+  end
+
 end
