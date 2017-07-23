@@ -6,6 +6,10 @@
       %h3.title.text-white.has-text-centered.is-bold
         Configure your Insurance Contract
 
+
+
+
+
   .columns
     .column.is-10.is-offset-1
       .columns.is-vcentered
@@ -16,7 +20,8 @@
             .control
               .select
                 %select
-                  %option Flight
+                  %option Flight (InsurETH)
+                  %option Flight (Etherisc)
                   %option Train
                   %option Cruise
                   %option Holiday
@@ -51,6 +56,23 @@
                   %option Fixed reward
                   %option Custom
 
+  .s30
+  .columns.is-vcentered
+    .column.is-8.is-offset-2
+      %div.ta-center
+        %a.button.is-primary.is-medium.is-long.btn-configure
+          Configure
+
+  .s30
+  %h2.ta-center Contract Source
+
+  .s20
+  .container
+    .columns
+      .column
+        %textarea.textarea.is-long.is-tall.contract_source
+
+
 .s50
 .columns.is-vcentered
   .column.is-8.is-offset-2
@@ -70,10 +92,24 @@
           %h3.title.text-white.has-text-centered
             Deploy via MetaMask
 
+      %p.ta-center
+        Make sure your metamask is unlocked and
+        %strong it doesn't point to MainNet
+
+      .columns
+        .column.is-6.is-offset-3
+          %p Your MetaMask Address
+
+          %input.input.disabled{ disabled: true }
+          .s20
+
+          %p Your (ETH) balance:
+
+          %input.input.disabled{ disabled: true }
 
       .column.is-8.is-offset-2
         %div.ta-center
-          %a.button.is-primary.is-medium.is-long
+          %a.button.is-primary.is-medium.is-long.deploy_contract_btn
             Deploy
 .s50
 
