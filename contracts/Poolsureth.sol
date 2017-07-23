@@ -1,7 +1,7 @@
 pragma solidity ^0.4.11;
 
 import "./usingOraclize.sol";
-import "./Solidity_stringutils.sol";
+import "./solidity_stringutils.sol";
 
 contract Poolsureth is usingOraclize {
 
@@ -79,10 +79,13 @@ contract Poolsureth is usingOraclize {
 
     function withdraw(uint id) {
       PoolSlice memory slice = pool_slices[id-1];
-      if ( slice.id != 0 ) {
+      if(msg.sender != slice.owner) throw;
+      if ( slice.id != 0 && !slice.withdrawn) {
         slice.withdrawn = true;
         pool_slices[id-1] = slice;
       }
+
+      if(!slice.owner.send(slice.amount)) throw;
     }
 
     /* oracle methods */
