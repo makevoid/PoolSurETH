@@ -31,6 +31,13 @@ class Renderer
       oraclize_gas: 500000        # default
     }
 
+    # insureth
+
+    # string constant query_p0 =
+    # "json(https://mkvd.eu.ngrok.io/api/flights/providers/flightaware/flights/";
+    # /* part 1 is :id */
+    # string constant query_p2 = ").FlightInfoExResult.flights[-1]";
+
     # custom
     # locals = {
     #   test: true,
