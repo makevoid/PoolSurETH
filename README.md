@@ -1,6 +1,6 @@
 # PoolSurETH
 
-![](http://mkvphoto.s3.amazonaws.com/tmp/poolsureth2.png)
+![](http://mkvphoto.s3.amazonaws.com/tmp/poolsureth-logo-small-1b.png)
 
 pronounced a-la-française: `pulsurette`
 
@@ -62,3 +62,7 @@ run tests:
 - oraclize + truffle setup: https://ethereum.stackexchange.com/questions/11383/oracle-oraclize-it-with-truffle-and-testrpc
 
 - ruby webapp boilerplate: https://github.com/makevoid/roda_haml_boilerplate_bulma
+
+
+
+![](http://mkvphoto.s3.amazonaws.com/tmp/poolsureth2.png)
