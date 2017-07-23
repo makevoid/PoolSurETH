@@ -7,7 +7,7 @@
     %link{ href: "/css/style.css", rel: "stylesheet", type: "text/css" }
 
   %body{ class: body_class }
-    .container
+    .container.is-fluid
 
       %nav.nav.has-shadow
         .container
@@ -20,12 +20,25 @@
 
       %section.hero.is-primary.is-medium
         .hero-body
-          .container.hs20
+          .container.hs20.ta-center
             %h1.title
               %a{ href: "/" } PoolSurETH
             %h2.subtitle
               Poolsureth Ethereum Insurance Contract Generator
 
+        .columns
+          .column
+            Flight
+            %i.fa.fa-plane{"aria-hidden" => "true"}
+          .column
+            Train
+            %i.fa.fa-plane{"aria-hidden" => "true"}
+          .column
+            Cruise
+            %i.fa.fa-ship{"aria-hidden" => "true"}
+          .column
+            Car
+            %i.fa.fa-car{"aria-hidden" => "true"}
 
       %section.content
         .box
