@@ -37,7 +37,6 @@ const configureContract = () => {
   $.get("/render_template", args, (resp) => {
     c.log(resp)
   })
-
 }
 
 var bindBtnConfigure = () => {

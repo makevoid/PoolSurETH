@@ -11,7 +11,9 @@ contract Poolsureth is usingOraclize {
 
     function Poolsureth() {
       // the admin can't do anything at the moment, we just record the address that deployed the contract
-      admin = msg.sender;
+      <% if no_admin %>
+        admin = msg.sender;
+      <% end %>
     }
 
     struct Policy {

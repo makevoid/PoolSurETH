@@ -10,6 +10,7 @@ module Poolsureth
     File.open("#{PATH}/contracts/#{name}_build.sol", "w") do |file|
       file.write contents
     end
+    contents
   end
 
 

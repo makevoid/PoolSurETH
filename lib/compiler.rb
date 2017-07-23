@@ -23,6 +23,8 @@ module Compiler
 
   end
 
+  extend ModuleMethods
+
 end
 
 Compiler.call
