@@ -50,3 +50,12 @@
 strong {
   font-weight: bold !important;
 }
+
+
+.blue {
+  color: #1fc8db;
+}
+
+.logo-top {
+  width: 50px;
+}
