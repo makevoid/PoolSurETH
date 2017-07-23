@@ -5,6 +5,9 @@ require 'date'
 
 PATH = File.expand_path "../", __FILE__
 
+# template renderer
+
+require_relative 'lib/renderer'
 require_relative 'lib/poolsureth'
 
 

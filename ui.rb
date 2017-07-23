@@ -19,13 +19,16 @@ class UI < Roda
       view 'index'
     }
 
-    r.on("foo") {
+    r.on("render_template") {
       r.is {
         r.get {
-          view 'foo'
+          name    = params[:template_name]
+          locals  = params[:json_locals]
+          Renderer.call template_name: name, json_locals: locals
         }
       }
     }
+
 
     # this needs to be removed from the final version - at the moment we need an API proxy because Oraclize hasn't published yet the solidity code to support passing HTTP headers to the oracle, which are required for some api providers (flightaware)
     r.on("api") {

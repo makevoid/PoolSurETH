@@ -1,5 +1,7 @@
 module Poolsureth
 
+  # TODO: make it a proper class
+
   def render(template, locals:)
     Tilt.new("#{PATH}/templates/#{template}.sol.erb").render Object.new, locals
   end
@@ -9,5 +11,6 @@ module Poolsureth
       file.write contents
     end
   end
+
 
 end
