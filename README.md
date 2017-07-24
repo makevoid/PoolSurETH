@@ -19,8 +19,8 @@ PoolSurETH is a Decentralized Insurance Configurator applied to any travel field
 
 Run test rpc:
 
-    <!-- OLD -->
-    <!-- testrpc --mnemonic "antani" --accounts 10 -->
+<!-- OLD -->
+<!-- testrpc --mnemonic "antani" --accounts 10 -->
 
     testrpc --account="0xdccc4200d5c8738264dc8a9064c03cd5e06af653cac0c5b99e8634bb6175882c,0x1337000000000000000000000" --gasLimit 0x2FAF080
 
