@@ -17,8 +17,12 @@ https://github.com/breaktheblock/PoolSurETH/blob/master/poolsureth.md
 
 #### Team: Francesco @makevoid Canessa, Kristina @kristinab Canessa, Thomas @tbarker Barker
 
+Team picture:
 
-#### Team leader: Kristina  @kristinab Canessa
+https://twitter.com/oraclizeit/status/889142331026407427
+
+
+#### Team leader: Kristina @kristinab Canessa
 
 
 #### What problem are you trying to solve?:
@@ -31,13 +35,13 @@ Decentralized Insurance Configurator applied to any travel field (flights, train
 First some details:
 
 - Automated Insurance [UX - one step registration and automatic claims] (example: select flight number, deposit ETHs, no step 3! When the flight lands you get the payout in ETH instantly)
-- Pool of investors putting Ether into a contract
+- Pool of investors putting Ethers into a contract
 - Ethereum smart contract checking Oracles for data, notifying contract for payouts.
 
-We think Ethereum is the only place to do a decentralized automated insurance (with automatic payouts in crypto currency) at the moment, even if there are some challenges (for example proving that you boarded the flight/train/cruise/... - for that the travel company should issue a queryable public API that the oracle can query) --- we think that this is the way to go.
+We think Ethereum is the only place to do a decentralized, peer to peer, automated insurance at the moment (with automatic payouts in crypto currency), even if there are some challenges (for example proving that you boarded the flight/train/cruise/... - for that the travel company should issue an HTTP(S) public API that the oracle can query) --- we think that this is the way to go.
 
 
-#### API/DATA/Gadget you are thinking about using:
+#### API/DATA/Gadget you used:
 
 - Oraclize
 - Truffle
