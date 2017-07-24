@@ -46,6 +46,7 @@ class UI < Roda
     }
 
     # this needs to be removed from the final version - at the moment we need an API proxy because Oraclize hasn't published yet the solidity code to support passing HTTP headers to the oracle, which are required for some api providers (flightaware)
+    # note: TODO - use "trusted" VMs and docker containers http://docs.oraclize.it/#data-sources-computation
     r.on("api") {
       r.on("flights") {
         r.on("providers") {

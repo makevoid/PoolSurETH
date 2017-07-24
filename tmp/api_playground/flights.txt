@@ -1,4 +1,13 @@
-notes: solidity concat
+notes on solidity solc deployer
+
+solc usingOraclize.sol
+
+deploy - get address
+
+solc Solidity_stringutils.sol
+
+deploy - gret address
+
 
 solc Poolsureth.sol | solc --link --libraries usingOraclize:0xe4b113092efc4367731f7c775a5dd3db6adbb3a5,Solidity_stringutils:0xe4b113092efc4367731f7c775a5dd3db6adbb3a5
 
@@ -36,4 +45,5 @@ https://flightaware.com/commercial/flightxml/documentation2.rvt
 ---
 
 https://github.com/oraclize/dapp-proof-of-identity/blob/master/web3evm.js
+
 http://www.masonforest.com/blockchain/2017/04/01/how-to-build-twillio-oracle-on-the-ethereum-blockchain.html
